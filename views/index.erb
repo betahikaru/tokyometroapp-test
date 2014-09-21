@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>東京メトロ オープンデータ APIテスト</title>
+  </head>
+  <body>
+  <h1>データ検索API(/api/v2/datapoints)</h1>
+    <p>rdf:Typeの指定のみ</p>
+    <form action="/datapoints" method="post">
+      <select name="rdf_type">
+        <% @datapoints_rdf_types.each do |type|  %>
+          <option value="<%= type %>"><%= type %></option>
+        <% end %>
+      </select>
+      <input type="submit" value="go" />
+    </form>
+  <h1>地物情報検索API(/api/v2/places)</h1>
+    <p>rdf:Typeの指定のみ</p>
+    <form action="/places" method="post">
+      <select name="rdf_type">
+        <% @places_rdf_types.each do |type|  %>
+          <option value="<%= type %>"><%= type %></option>
+        <% end %>
+      </select>
+      <input type="submit" value="go" />
+    </form>
+  </body>
+</html>
+
