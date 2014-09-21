@@ -52,7 +52,7 @@ NOTYET_PLACES_RDF_TYPES = %w{
 }
 
 # その他データ
-STATION_LIST   = YAML.load_file('stationList.yaml') # 駅リストの読み込み
+#STATION_LIST   = YAML.load_file('stationList.yaml') # 駅リストの読み込み
 PLACES_RADIUS  = 300 # Places APIでの検索半径(m)
 
 
