@@ -28,14 +28,15 @@ function setInputElementsToWrapper(wrapperId, params) {
     for (var i=0; i < params.length; i++) {
 	var tag = params[i]['tag'];
 	var name = params[i]['name'];
-	var listElement = document.createElement('li');
+	var formGroupElement = document.createElement('div');
+	formGroupElement.className = "form-group";
 	var targetElementId = "js-" + name;
 	if (tag == "input" || tag == "select") {
 	    var labelTextElement = document.createTextNode(name);
 	    var labelElement = document.createElement('label');
 	    labelElement.for = targetElementId;
 	    labelElement.appendChild(labelTextElement);
-	    listElement.appendChild(labelElement);
+	    formGroupElement.appendChild(labelElement);
 	}
 	if (tag == "input") {
 	    var inputElement = document.createElement('input');
@@ -43,13 +44,17 @@ function setInputElementsToWrapper(wrapperId, params) {
 	    inputElement.type = params[i]['type'];
 	    inputElement.name = name;
 	    inputElement.value = params[i]['value'];
-	    inputElement.className = params[i]['className'];
-	    listElement.appendChild(inputElement);
+	    if (params[i]['className']) {
+		inputElement.className = params[i]['className'];
+	    }
+	    formGroupElement.appendChild(inputElement);
 	} else if (tag == "select") {
 	    var selectElement = document.createElement('select');
 	    selectElement.id = targetElementId;
 	    selectElement.name = name;
-	    selectElement.className = params[i]['className'];
+	    if (params[i]['className']) {
+		selectElement.className = params[i]['className'];
+	    }
 	    var values = params[i]['value'];
 	    for (var j=0; j<values.length; j++) {
 		var optionTextElement = document.createTextNode(values[j]);
@@ -58,9 +63,9 @@ function setInputElementsToWrapper(wrapperId, params) {
 		optionElement.appendChild(optionTextElement);
 		selectElement.appendChild(optionElement);
 	    }
-	    listElement.appendChild(selectElement);
+	    formGroupElement.appendChild(selectElement);
 	}
-	element.appendChild(listElement);
+	element.appendChild(formGroupElement);
     }
 }
 
@@ -70,6 +75,7 @@ function changeDatapointsRdfType() {
     var odpt_railway = {
 	"tag": "select",
 	"name": "odpt_railway",
+	"className": "form-control",
 	"value": [
 	    "odpt.Railway:TokyoMetro.Ginza",
 	    "odpt.Railway:TokyoMetro.Marunouchi",
@@ -86,6 +92,7 @@ function changeDatapointsRdfType() {
 	"tag": "input",
 	"type": "text",
 	"name": "odpt_operator",
+	"className": "form-control",
 	"value": "odpt.Operator:TokyoMetro"
     };
     if (type == TYPE_ODPT_TRAIN) {
