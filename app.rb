@@ -75,13 +75,42 @@ post '/datapoints' do
 
   # Search
   http_client = HTTPClient.new
-  response = http_client.get DATAPOINTS_URL,
-    { "rdf:type" => rdf_type,
-      "acl:consumerKey" => ACCESS_TOKEN }
-  puts response.status
+  request_params = build_datapoints_request_param(rdf_type, params)
+  response = http_client.get DATAPOINTS_URL, request_params
 
   # Response
+  puts response.status
   response.body
+end
+
+def build_datapoints_request_param(type, params)
+  request_params = {}
+  request_params['rdf:type'] = type
+  request_params['acl:consumerKey'] = ACCESS_TOKEN
+  puts params
+  # odpt:Train
+  if %w{
+    odpt:Train
+    odpt:TrainInformation
+    odpt:StationTimetable
+    }.include?(type)
+    # parameter: odpt:railway
+    # description: 鉄道路線
+    odpt_railway = params['odpt_railway']
+    request_params['odpt:railway'] = odpt_railway unless odpt_railway.empty?
+  elsif %w{
+    odpt:TrainInformation
+    odpt:StationTimetable
+    }.include?(type)
+    # parameter: odpt:operator
+    # description: 運行会社
+    odpt_operator = params['odpt_operator']
+    request_params['odpt:operator'] = odpt_operator unless odpt_operator.empty?
+  else
+  end
+
+  # result
+  request_params
 end
 
 post '/places' do
